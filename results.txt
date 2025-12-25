@@ -1,0 +1,213 @@
+I have no name!@ece-nebula10:/mnt/slurm_nfs/rezagroup_folder/MG-MIS$ ./mis ../datasets/ecl-suite/citeseer.egr 2
+Multi-GPU MIS using buffers for data exchange (MG-MIS_10.cu)
+input: ../datasets/ecl-suite/citeseer.egr
+nodes: 3264
+edges: 9072
+devices: 2
+PageSize = 512
+Vertex ID range of device 1: [1536, 3264)
+Vertex ID range of device 0: [0, 1536)
+Global memory size = 19.57 GB
+Global memory size = 19.56 GB
+h_BUF_SIZE of one buffer = 1245849088 words (9.28 GB)
+GPU #1 - Total buffer size of all 2 buffers in this GPU: 18.56 GB
+GPU #0 - Total memory usage: 18.56 GB
+GPU #1 - Total memory usage: 18.56 GB
+preparation time: 0.400604 s
+p2pEnabled = true
+----------------------
+
+runtime: 0.001005 s
+iterations: 3
+throughput: 3.247761 Mnodes/s
+throughput: 9.026866 Medges/s
+elements in set: 1594 (48.8%)
+verification passed
+Time to copy result to host and verify: 0.000027 s
+--------------------
+
+
+
+
+
+
+
+I have no name!@ece-nebula10:/mnt/slurm_nfs/rezagroup_folder/MG-MIS$ ./mis ../datasets/ecl-suite/micro.egr 2
+Multi-GPU MIS using buffers for data exchange (MG-MIS_10.cu)
+input: ../datasets/ecl-suite/micro.egr
+nodes: 96638
+edges: 2160312
+devices: 2
+PageSize = 512
+Vertex ID range of device 0: [0, 48128)
+Vertex ID range of device 1: [48128, 96638)
+Global memory size = 19.56 GB
+Global memory size = 19.57 GB
+h_BUF_SIZE of one buffer = 1245491968 words (9.28 GB)
+GPU #0 - Total buffer size of all 2 buffers in this GPU: 18.56 GB
+GPU #1 - Total memory usage: 18.57 GB
+GPU #0 - Total memory usage: 18.56 GB
+preparation time: 0.398713 s
+p2pEnabled = true
+----------------------
+
+runtime: 0.006355 s
+iterations: 20
+throughput: 15.206609 Mnodes/s
+throughput: 339.938946 Medges/s
+elements in set: 23703 (24.5%)
+verification passed
+Time to copy result to host and verify: 0.001305 s
+--------------------
+
+
+
+
+
+
+
+
+
+
+I have no name!@ece-nebula10:/mnt/slurm_nfs/rezagroup_folder/MG-MIS$ ./mis ../datasets/ecl-suite/livejournal.egr 2
+Multi-GPU MIS using buffers for data exchange (MG-MIS_10.cu)
+input: ../datasets/ecl-suite/livejournal.egr
+nodes: 4847571
+edges: 85702474
+devices: 2
+PageSize = 512
+Vertex ID range of device 0: [0, 2423296)
+Vertex ID range of device 1: [2423296, 4847571)
+Global memory size = 19.56 GB
+Global memory size = 19.57 GB
+h_BUF_SIZE of one buffer = 1207075328 words (8.99 GB)
+GPU #0 - Total buffer size of all 2 buffers in this GPU: 17.99 GB
+GPU #1 - Total memory usage: 18.12 GB
+GPU #0 - Total memory usage: 18.56 GB
+preparation time: 0.679804 s
+p2pEnabled = true
+----------------------
+
+runtime: 0.130229 s
+iterations: 174
+throughput: 37.223437 Mnodes/s
+throughput: 658.090548 Medges/s
+elements in set: 2316847 (47.8%)
+verification passed
+Time to copy result to host and verify: 0.121063 s
+--------------------
+
+
+
+
+
+
+
+
+
+I have no name!@ece-nebula10:/mnt/slurm_nfs/rezagroup_folder/MG-MIS$ ./mis ../datasets/ecl-suite/orkut.egr 2
+Multi-GPU MIS using buffers for data exchange (MG-MIS_10.cu)
+input: ../datasets/ecl-suite/orkut.egr
+nodes: 3072441
+edges: 234370166
+devices: 2
+PageSize = 512
+Vertex ID range of device 0: [0, 1536000)
+Vertex ID range of device 1: [1536000, 3072441)
+Global memory size = 19.56 GB
+Global memory size = 19.57 GB
+h_BUF_SIZE of one buffer = 1170080512 words (8.72 GB)
+GPU #0 - Total buffer size of all 2 buffers in this GPU: 17.44 GB
+GPU #1 - Total memory usage: 18.10 GB
+GPU #0 - Total memory usage: 18.56 GB
+preparation time: 1.167098 s
+p2pEnabled = true
+----------------------
+
+runtime: 0.143384 s
+iterations: 167
+throughput: 21.428060 Mnodes/s
+throughput: 1634.562894 Medges/s
+elements in set: 651516 (21.2%)
+verification passed
+Time to copy result to host and verify: 0.241664 s
+--------------------
+
+
+
+
+
+
+
+
+
+
+
+I have no name!@ece-nebula10:/mnt/slurm_nfs/rezagroup_folder/MG-MIS$ ./mis ../datasets/ecl-suite/patent.egr 2
+Multi-GPU MIS using buffers for data exchange (MG-MIS_10.cu)
+input: ../datasets/ecl-suite/patent.egr
+nodes: 2745761
+edges: 27930818
+devices: 2
+PageSize = 512
+Vertex ID range of device 0: [0, 1372672)
+Vertex ID range of device 1: [1372672, 2745761)
+Global memory size = 19.56 GB
+Global memory size = 19.57 GB
+h_BUF_SIZE of one buffer = 1237348224 words (9.22 GB)
+GPU #0 - Total buffer size of all 2 buffers in this GPU: 18.44 GB
+GPU #1 - Total memory usage: 18.57 GB
+GPU #0 - Total memory usage: 18.55 GB
+preparation time: 0.500769 s
+p2pEnabled = true
+----------------------
+
+runtime: 0.030921 s
+iterations: 57
+throughput: 88.799230 Mnodes/s
+throughput: 903.296077 Medges/s
+elements in set: 969936 (35.3%)
+verification passed
+Time to copy result to host and verify: 0.044527 s
+--------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+I have no name!@ece-nebula10:/mnt/slurm_nfs/rezagroup_folder/MG-MIS$ ./mis ../datasets/ecl-suite/rmat25.egr 2
+Multi-GPU MIS using buffers for data exchange (MG-MIS_10.cu)
+input: ../datasets/ecl-suite/rmat25.egr
+nodes: 33554430
+edges: 1073741872
+devices: 2
+PageSize = 512
+Vertex ID range of device 1: [16776704, 33554430)
+Vertex ID range of device 0: [0, 16776704)
+Global memory size = 19.57 GB
+Global memory size = 19.56 GB
+h_BUF_SIZE of one buffer = 959525824 words (7.15 GB)
+GPU #1 - Total buffer size of all 2 buffers in this GPU: 14.30 GB
+GPU #0 - Total memory usage: 18.56 GB
+GPU #1 - Total memory usage: 18.56 GB
+preparation time: 5.751165 s
+p2pEnabled = true
+----------------------
+
+runtime: 0.306843 s
+iterations: 66
+throughput: 109.353741 Mnodes/s
+throughput: 3499.320082 Medges/s
+elements in set: 27606655 (82.3%)
+verification passed
+Time to copy result to host and verify: 0.854930 s
+--------------------
