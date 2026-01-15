@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <string>
 #include <type_traits>
+#include <inttypes.h>
 
 #include "ECLgraph.h"
 
@@ -45,8 +46,10 @@ int main(int argc, char** argv) {
   while (std::fgets(line, sizeof(line), f)) {
     // check if the line data is valid
     if (is_comment_or_blank(line)) continue;
+
     // Read 2 non-negative values
     if (std::sscanf(line, "%lld %lld", &u_ll, &v_ll) != 2) continue;
+
     if (u_ll < 0LL || v_ll < 0LL) {
       std::fprintf(stderr, "ERROR: negative node id detected in line: %s", line);
       std::fclose(f);
@@ -57,13 +60,13 @@ int main(int argc, char** argv) {
       std::fclose(f);
       return 4;
     }
+
     // remove self-loops
-    if (u_ll == v_ll) {
-        continue;
-    }
+    if (u_ll == v_ll) continue;
+
     int u = (int)u_ll;
     int v = (int)v_ll;
-    
+
     min_id = std::min(min_id, std::min(u, v));
     max_id = std::max(max_id, std::max(u, v));
 
@@ -98,38 +101,37 @@ int main(int argc, char** argv) {
 
   const int nodes = max_id + 1;
 
-  // ECLgraph expects g.edges to fit its type; we keep it in int range for simplicity
-  long long e_ll = (long long)edges.size();
-  if (e_ll > INT_MAX) {
-    std::fprintf(stderr,
-                 "ERROR: too many edges (%lld) for this converter (INT_MAX limit).\n"
-                 "Consider a streaming converter if you need bigger graphs.\n",
-                 e_ll);
-    return 7;
-  }
-  const int e = (int)e_ll;
+  // edges count in 64-bit (no INT_MAX limit)
+  uint64_t e64 = (uint64_t)edges.size();
 
   std::fprintf(stdout, "Input:  %s\n", in_path);
   std::fprintf(stdout, "Output: %s\n", out_path);
   std::fprintf(stdout, "Nodes:  %d\n", nodes);
-  std::fprintf(stdout, "Edges:  %d\n", e);
+  std::fprintf(stdout, "Edges:  %" PRIu64 "\n", e64);
   if (make_undirected) std::fprintf(stdout, "Mode:   undirected (symmetrized)\n");
   else std::fprintf(stdout, "Mode:   as-is\n");
 
   ECLgraph g;
   g.nodes = nodes;
-  g.edges = e;
+
+  // Use the real type of g.edges from ECLgraph.h (could be int/long/long long)
+  using EdgesT = decltype(g.edges);
+  g.edges = (EdgesT)e64;
+
   g.eweight = nullptr;
 
   // Auto-match the pointer element types from ECLgraph.h (int* vs long* etc.)
   using IndexT = std::remove_pointer_t<decltype(g.nindex)>;
   using AdjT   = std::remove_pointer_t<decltype(g.nlist)>;
 
+  // Allocate CSR arrays
   g.nindex = (decltype(g.nindex))std::calloc((size_t)nodes + 1, sizeof(IndexT));
-  g.nlist  = (decltype(g.nlist)) std::malloc((size_t)e * sizeof(AdjT));
+  g.nlist  = (decltype(g.nlist)) std::malloc((size_t)e64 * sizeof(AdjT));
 
   if (!g.nindex || !g.nlist) {
-    std::fprintf(stderr, "ERROR: memory allocation failed\n");
+    std::fprintf(stderr, "ERROR: memory allocation failed (nodes=%d edges=%" PRIu64 ")\n", nodes, e64);
+    if (g.nindex) std::free(g.nindex);
+    if (g.nlist)  std::free(g.nlist);
     return 8;
   }
 
@@ -138,6 +140,7 @@ int main(int argc, char** argv) {
     const int src = pr.first;
     if (src < 0 || src >= nodes) {
       std::fprintf(stderr, "ERROR: src out of range: %d\n", src);
+      freeECLgraph(g);
       return 9;
     }
     g.nindex[src + 1] += 1;
@@ -148,6 +151,10 @@ int main(int argc, char** argv) {
     g.nindex[i] += g.nindex[i - 1];
   }
 
+  // Optional sanity: nindex[nodes] should equal edges count (in IndexT)
+  // (May overflow if IndexT is smaller than edges count)
+  // std::fprintf(stdout, "CSR total = %lld\n", (long long)g.nindex[nodes]);
+
   // Fill adjacency (cursor per node)
   std::vector<IndexT> cur((size_t)nodes);
   for (int i = 0; i < nodes; i++) cur[i] = g.nindex[i];
@@ -157,6 +164,7 @@ int main(int argc, char** argv) {
     const int dst = pr.second;
     if (dst < 0 || dst >= nodes) {
       std::fprintf(stderr, "ERROR: dst out of range: %d\n", dst);
+      freeECLgraph(g);
       return 10;
     }
     IndexT pos = cur[src]++;
