@@ -1,16 +1,35 @@
-CXX      := g++
-CXXFLAGS := -O3 -std=c++17
+# ===== Compilers =====
+CXX        := g++
+NVCC	   := nvcc
 
-TARGET := edgelist2ecl
-SRCS   := edgelist2ecl.cpp
-HDRS   := ECLgraph.h
+# ===== Flags =====
+CXXFLAGS   := -O3 -std=c++17
+NVCCFLAGS  := -O3 -arch=sm_86 -Xcompiler -fopenmp
 
-all: $(TARGET)
+# ===== Targets =====
+TARGET_CPP := edgelist2ecl
+TARGET_CU  := mis
 
-$(TARGET): $(SRCS) $(HDRS)
-	$(CXX) $(CXXFLAGS) $(SRCS) -o $(TARGET)
+# ===== Srcs =====
+SRCS_CPP   := edgelist2ecl.cpp
+SRCS_CU    := MG-MIS_10.cu
+HDRS       := ECLgraph.h
 
+# ===== Build All =====
+all: $(TARGET_CPP) $(TARGET_CU)
+
+# ===== C++ build =====
+$(TARGET_CPP): $(SRCS_CPP) $(HDRS)
+	$(CXX) $(CXXFLAGS) $(SRCS_CPP) -o $(TARGET_CPP)
+
+# ===== CUDA build =====
+$(TARGET_CU): $(SRCS_CU)
+	$(NVCC) $(NVCCFLAGS) $(SRCS_CU) -o $(TARGET_CU)
+
+# ===== Clean =====
 clean:
-	rm -f $(TARGET) *.o
+	rm -f $(TARGET_CPP) $(TARGET_CU) *.o
 
 .PHONY: all clean
+
+
