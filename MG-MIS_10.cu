@@ -512,7 +512,7 @@ int main(int argc, char* argv [])
       h_BUF_SIZE = 16384000;  // Default size retained. Note that no inter-GPU communication is involved when devices = 1
     } else if (h_BUF_SIZE < 16384000) {
       printf("Suggested new h_BUF_SIZE is %d, which is < 16384000. Exiting...\n", h_BUF_SIZE);
-      h_BUF_SIZE = 16384000;
+      exit(-1);
     }
 
     long bufMemSize = (devices > 1) ? (2 * (devices - 1) * h_BUF_SIZE * sizeof(long)) : 0;
